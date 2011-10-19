@@ -3,7 +3,7 @@ use warnings;
 
 #analysis sam files, report #reads mapped, coverage, etc
 
-if ($#ARGV[0] < 0)
+if ($#ARGV < 0)
 {
 	print "usage:perl program samFile\n";
 	exit();
@@ -28,11 +28,11 @@ while(<IN>)
 	else
 	{
 		@line = split(/\t/,$_);
-		if ($line[6] ne '*')
+		if ($line[5] ne '*')
 		{
 			$mappedReads ++;
-			$readlen += length($line[]);
-			$lendis{length($line[])} += 1;
+			$readlen += length($line[9]);
+			$lendis{length($line[9])} += 1;
 		}
 	}
 
@@ -41,7 +41,7 @@ close IN;
 
 
 $coverage = $readlen / $genomeSize;
-print "#mapped reads:\t$mapped\ncoverage:\t$coverage\n";
+print "#mapped reads:\t$mappedReads\ncoverage:\t$coverage\n";
 foreach my $ll (keys %lendis)
 {
 	print "$ll\t$lendis{$ll}\n";
