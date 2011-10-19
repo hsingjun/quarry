@@ -14,6 +14,7 @@ my $genomeSize = 0;
 my $coverage = 0;
 my $readlen = 0;
 my $mappedReads = 0;
+my $totalreads = 0;
 my %lendis = ();#read length distribution
 
 open (IN,"$infile")||die "$!";
@@ -28,6 +29,7 @@ while(<IN>)
 	else
 	{
 		@line = split(/\t/,$_);
+		$totalreads ++;
 		if ($line[5] ne '*')
 		{
 			$mappedReads ++;
@@ -41,7 +43,11 @@ close IN;
 
 
 $coverage = $readlen / $genomeSize;
-print "#mapped reads:\t$mappedReads\ncoverage:\t$coverage\n";
+my $mappable = $mappedReads / $totalreads;
+print "#mapped reads:\t$mappedReads\n";
+printf "%.2f mapped\n", $mappable;
+print "coverage:\t$coverage\n";
+
 foreach my $ll (keys %lendis)
 {
 	print "$ll\t$lendis{$ll}\n";
